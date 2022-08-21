@@ -1,31 +1,31 @@
+class ContaCorrente:
+    def __init__(self, titular, saldo=0):
+        self.titular = titular
+        self.__saldo = saldo
+        self.__extrato = []
 
-
-class cachorro:
-    def __init__(self,nome,raca,cor):
-        self.nome = nome 
-        self.raca = raca 
-        self.cor = cor
-
-    def latir(self):
-        return f'{self.nome} está latindo.'
+    def consultar_saldo(self):
+        return self.__saldo
     
-    def andar(self):
-        return f'{self.nome} está andando.'
-    
-    def fazer_festa(self):
-        return f'{self.nome} está fazendo festa.'
+    def depositar(self, valor):
+        self.__saldo += valor
+        self.__extrato.append(f'(+){valor:.2f}')
 
-class Gato:
-    def __init__(self,nome,raca,cor):
-        self.nome = nome 
-        self.raca = raca 
-        self.cor = cor
+    def sacar(self, valor):
+        if valor > self.__saldo:
+            return 'Saldo insuficiente.'
+        self.__saldo -= valor
+        self.__extrato.append(f'(-){valor:.2f}')
     
-    def miar(self):
-        return 'meow meow'
+    def transferir(self,destino,valor):
+        self.sacar(valor)
+        destino.depositar(valor)
+        return 'Transferência realizada com sucesso.'
     
-    def andar(self):
-        return f'{self.nome} está desfilando...'
-
-    def brincar(self, brinquedo ='novelo'):
-        return f'{self.nome} está brincando com {self.brinquedo}'
+    def consultar_extrato(self):
+        print('-=' * 10, 'EXTRATO', '-=' * 10)
+        print(self.titular)
+        for mov in self.__extrato:
+            print(mov)
+        print(f'Saldo: {self.consultar_saldo()}')
+    
